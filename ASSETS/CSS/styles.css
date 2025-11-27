@@ -1,0 +1,277 @@
+/* 
+********************************************************
+Lección 4 – Laboratorio de Trámites en 7 Días
+Paleta L2E2-3 + pequeñas mejoras RCSparkMaterial (dark)
+********************************************************
+*/
+
+/* Estilos base pensados en legibilidad y simplicidad */
+
+/* NUEVO: scroll suave al hacer clic en enlaces internos */
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  /* Variables de color para mantener consistencia */
+  --color-fondo: #020617;
+  --color-texto: #e5e7eb;
+  --color-acento: #38bdf8;
+  --color-fondo-claro: #f9fafb;
+  --color-texto-oscuro: #111827;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/*
+********************************************************
+1. BODY Y TIPOGRAFÍA
+********************************************************
+*/
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.6;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  /* NUEVO: transición suave al cambiar modo de color */
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Limitamos el ancho para mejorar lectura (contenedor principal) */
+main,
+.page-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/*
+********************************************************
+2. BLOQUES PRINCIPALES
+   header, footer, section, aside, article
+********************************************************
+*/
+
+header,
+footer,
+section,
+aside,
+article {
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 0.75rem;
+  background-color: rgba(15, 23, 42, 0.9);
+  /* NUEVO: transiciones suaves en modo lectura */
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* El contenido textual bajo la navbar */
+.header-content {
+  max-width: 960px;
+  margin: 1rem auto 0;
+}
+
+/* Espaciado de títulos */
+h1,
+h2,
+h3 {
+  line-height: 1.3;
+  margin-top: 0;
+}
+
+header h1 {
+  font-size: 1.8rem;
+}
+
+p {
+  margin-bottom: 0.75rem;
+}
+
+/*
+********************************************************
+3. GRID DE HISTORIAS
+   (cumple con uso de CSS Grid en L4)
+********************************************************
+*/
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile: una columna */
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Tarjetas de historia (Ana, Luis) */
+.story-card {
+  /* article ya tiene fondo y padding via regla genérica */
+  border: 1px solid transparent; /* NUEVO: para hover sutil */
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* NUEVO: micro-elevación RCSparkMaterial al pasar el mouse */
+.story-card:hover {
+  border-color: var(--color-acento);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.65);
+  transform: translateY(-1px);
+}
+
+/* Imagen responsiva sin romper layout */
+figure {
+  margin: 1rem 0;
+}
+
+img,
+.tramite-imagen {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0.75rem auto;
+}
+
+/*
+********************************************************
+4. BOTÓN MODO LECTURA
+********************************************************
+*/
+
+#modo-lectura {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-acento);
+  background-color: transparent;
+  color: var(--color-texto);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease; /* NUEVO */
+}
+
+#modo-lectura:hover {
+  background-color: rgba(56, 189, 248, 0.1);
+}
+
+/* NUEVO: foco accesible al estilo RCSpark */
+#modo-lectura:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+/*
+********************************************************
+5. LAYOUT RESPONSIVO – MOBILE FIRST
+   Sección + aside en columnas en pantallas grandes
+********************************************************
+*/
+
+/* Mobile: por defecto, una columna (section arriba, aside abajo).
+   Esto ya se cumple con el flujo normal: .page-main apila elementos. */
+
+/* Tablet / escritorio (≥ 768px): usamos grid para distribuir section + aside */
+@media (min-width: 768px) {
+  main,
+  .page-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+  }
+
+  header,
+  footer {
+    grid-column: 1 / -1; /* header y footer ocupan todo el ancho */
+  }
+
+  /* Historias en dos columnas en pantallas medias/grandes */
+  .stories-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/*
+********************************************************
+6. MODO LECTURA: COLORES MÁS CLAROS Y CONTRASTE SUAVE
+********************************************************
+*/
+
+body.modo-lectura {
+  background-color: var(--color-fondo-claro);
+  color: var(--color-texto-oscuro);
+}
+
+body.modo-lectura header,
+body.modo-lectura footer,
+body.modo-lectura section,
+body.modo-lectura aside,
+body.modo-lectura article {
+  background-color: #ffffff;
+  color: var(--color-texto-oscuro);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+  border-color: rgba(15, 23, 42, 0.06); /* NUEVO: borde más suave */
+}
+
+body.modo-lectura #modo-lectura {
+  border-color: var(--color-texto-oscuro);
+}
+
+/*
+********************************************************
+7. NAVBAR – AJUSTES SOBRE BOOTSTRAP PARA TEMA OSCURO
+********************************************************
+*/
+
+.navbar {
+  border-radius: 0.75rem;
+}
+
+/* Fondo y borde de la navbar para integrarla al tema oscuro */
+.navbar-light.bg-light {
+  background-color: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid rgba(15, 23, 42, 0.95);
+  /* NUEVO: leve sombra para darle jerarquía */
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Marca y links en claro */
+.navbar-light .navbar-brand,
+.navbar-light .nav-link {
+  color: var(--color-texto) !important;
+}
+
+/* Link activo con acento */
+.navbar-light .nav-link.active {
+  color: var(--color-acento) !important;
+  font-weight: 600;
+}
+
+/* Hover de links */
+.navbar-light .nav-link:hover {
+  color: var(--color-acento) !important;
+}
+
+/* NUEVO: foco visible en links de la nav */
+.navbar-light .nav-link:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+/* Botón hamburguesa en claro */
+.navbar-light .navbar-toggler {
+  border-color: var(--color-acento);
+}
+
+.navbar-light .navbar-toggler-icon {
+  filter: invert(1); /* icono claro sobre fondo oscuro */
+}
